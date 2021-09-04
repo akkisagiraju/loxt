@@ -1,4 +1,6 @@
 import { readFileSync } from 'fs';
+import { errorReporter } from './error';
+import Scanner from './scanner';
 
 function main(): void {
   const args = process.argv.slice(2);
@@ -14,8 +16,12 @@ function main(): void {
 }
 
 function runFile(path: string): void {
-  const str = readFileSync(path, { encoding: 'utf-8' });
-  run(str);
+  try {
+    const str = readFileSync(path, { encoding: 'utf-8' });
+    run(str);
+  } catch (error) {
+    errorReporter.error(error);
+  }
 }
 
 // function runPrompt(): void {
